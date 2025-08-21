@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register</title>
+</head>
+<body>
+  <h1>Register</h1>
+  <form id="registerForm">
+  <input placeholder="First Name" name="firstName" required><br>
+  <input placeholder="Last Name" name="lastName" required><br>
+  <input placeholder="Email" name="email" type="email" required><br>
+  <input placeholder="Password" name="password" type="password" required><br>
+  <input placeholder="Occupation / Designation" name="designation" required><br>
+  <input placeholder="Phone Number" name="phone" required><br>
+
+  <p>Are you 18 years or older?</p>
+  <label><input type="radio" name="age18" value="true" required> Yes</label>
+  <label><input type="radio" name="age18" value="false"> No</label><br>
+
+  <button type="submit">Register</button>
+</form>
+
+  <p>Already have an account? <a href="/login">Login here</a></p>
+
+  <script>
+    const form = document.getElementById("registerForm");
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(form).entries());
+  data.age18 = data.age18 === "true"; // convert to boolean
+
+  const res = await fetch("/api/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+  const result = await res.json();
+  alert(result.message);
+  if (result.status === "success") {
+    window.location.href = "/login";
+  }
+});
+  </script>
+</body>
+</html>
