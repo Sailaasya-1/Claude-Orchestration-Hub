@@ -7,12 +7,10 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// In-memory "database"
 let users = [];
 
-// ---------------- REST API ----------------
 
-// REGISTER API
+
 app.post("/api/register", (req, res) => {
     const { firstName, lastName, designation, phone, email, password, age18 } = req.body;
 
@@ -34,7 +32,7 @@ app.post("/api/register", (req, res) => {
     res.json({ status: "success", message: "Account created successfully" });
 });
 
-// LOGIN API
+
 app.post("/api/login", (req, res) => {
     const { email, password } = req.body;
     const user = users.find(u => u.email === email && u.password === password);
@@ -57,24 +55,23 @@ app.post("/api/login", (req, res) => {
     });
 });
 
-// ---------------- PAGE ROUTES ----------------
 
-// Homepage
+
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// Login page
+
 app.get("/login", (req, res) => {
     res.sendFile(path.join(__dirname, "login.html"));
 });
 
-// Register page
+
 app.get("/register", (req, res) => {
     res.sendFile(path.join(__dirname, "register.html"));
 });
 
-// ---------------- START SERVER ----------------
+
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`✅ Server running at http://localhost:${PORT}`);
